@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>業務ダッシュボード</title>
+<style>
+  :root {
+    --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+    --line: rgba(11,11,11,0.10); --accent: #2a78d6; --critical: #d03b3b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink);
+         font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif; }
+  header { padding: 24px 32px 16px; border-bottom: 1px solid var(--line); background: var(--surface); }
+  header h1 { margin: 0; font-size: 26px; }
+  header .sub { margin-top: 4px; color: var(--ink2); }
+  .loader { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+  .loader label.btn { background: var(--accent); color: #fff; padding: 9px 18px; border-radius: 999px; cursor: pointer; font-weight: 700; }
+  .loader input { display: none; }
+  #load-status span { margin-right: 14px; font-size: 14px; }
+  #load-status .ok { color: #006300; } #load-status .ng { color: var(--muted); }
+  main { max-width: 1120px; margin: 0 auto; padding: 8px 24px 64px; }
+  .band { margin: 28px 0 8px; display: flex; align-items: baseline; gap: 14px; }
+  .band h2 { margin: 0; font-size: 21px; }
+  .band span { color: var(--ink2); font-size: 14px; }
+  .divider { margin: 40px 0 0; padding: 12px 18px; border-radius: 12px; background: #f0efec; color: var(--ink2); text-align: center; font-size: 15px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; margin: 14px 0; }
+  .card h3 { margin: 0 0 4px; font-size: 18px; }
+  .card .note { margin: 0 0 12px; color: var(--ink2); font-size: 13px; }
+  .card .wait { color: var(--ink2); }
+  .card .err { color: var(--critical); }
+  .empty { border: 2px dashed #c3c2b7; border-radius: 16px; padding: 34px; margin: 14px 0; text-align: center; color: var(--muted); font-size: 16px; }
+  .empty b { display: block; color: var(--ink2); font-size: 19px; margin-bottom: 4px; }
+  .mc-legend { display: flex; gap: 18px; margin: 4px 0 6px; font-size: 14px; color: var(--ink2); }
+  .mc-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .mc-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 6px 0 16px; }
+  .mc-tile { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+  .mc-tile-label { color: var(--ink2); font-size: 13px; }
+  .mc-tile-value { font-size: 24px; font-weight: 700; margin-top: 2px; }
+  .mc-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .mc-table th { color: var(--ink2); font-weight: 600; border-bottom: 1px solid #c3c2b7; padding: 6px 8px; }
+  .mc-table td { border-bottom: 1px solid #e1e0d9; padding: 6px 8px; }
+  .mc-table tr.alert td { color: var(--critical); font-weight: 700; }
+  @media (max-width: 720px) { .mc-tiles { grid-template-columns: repeat(2, 1fr); } main { padding: 8px 12px 48px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>業務ダッシュボード</h1>
+  <div class="sub">サンプル（専門サービス版）｜会計 2025年・日報 2025年12月</div>
+  <div class="loader">
+    <label class="btn" for="file-input">ファイルを選ぶ</label>
+    <input id="file-input" type="file" accept=".csv" multiple>
+    <span style="color:var(--ink2);font-size:14px">data フォルダの3つのCSVを、まとめて選んでください</span>
+    <div id="load-status"></div>
+  </div>
+</header>
+
+<main>
+  <div class="band"><h2>経営の数字（2025年）</h2><span>先月までの結果</span></div>
+  <div id="slot-top" class="slot"></div>
+
+  <div class="divider">ここまでが先月までの結果 ／ ここからが今動いていること</div>
+
+  <div class="band"><h2>現場の動き（2025年12月）</h2><span>いま動いている案件の兆し</span></div>
+  <div id="slot1" class="slot">
+    <div class="empty"><b>空き枠①</b>ここにパーツを足します</div>
+  </div>
+  <div id="slot2" class="slot">
+    <div class="empty"><b>空き枠②</b>ここにパーツを足します</div>
+  </div>
+</main>
+
+<script src="lib/chart.js"></script>
+<script src="lib/dashboard.js"></script>
+<script src="parts/part1_uriage.js"></script>
+<script src="parts/part2_riekiritsu.js"></script>
+<script src="parts/part3_hiyou.js"></script>
+<!-- ▼ 空き枠①のパーツは、この下に1行足す（例：<script src="parts/part4_xxx.js"></script>） -->
+
+<!-- ▼ 空き枠②のパーツは、この下に1行足す -->
+
+<script>Dashboard.start();</script>
+</body>
+</html>
